@@ -1,0 +1,28 @@
+name: Build Android APK
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Build with Buildozer
+      uses: ziirish/buildozer-action@v1
+      id: buildozer
+      with:
+        command: android debug
+        cmake: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Upload APK Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: quotex-bot-apk
+        path: bin/*.apk
