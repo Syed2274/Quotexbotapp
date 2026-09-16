@@ -12,13 +12,17 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Build with Buildozer Container
-      uses: ArtemSBulgakov/buildozer-action@v1
+    - name: Build with Buildozer
+      uses: ziirish/buildozer-action@v1
+      id: buildozer
       with:
         command: android debug
+        cmake: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Upload APK Artifact
       uses: actions/upload-artifact@v4
       with:
-        name: quotex-apk
+        name: quotex-bot-apk
         path: bin/*.apk
